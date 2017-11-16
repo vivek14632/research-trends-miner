@@ -1,10 +1,11 @@
+#Program made to rename the downloaded files based in the title of the file by Vijay Vishwakarma 
 import os
 import PyPDF2
 import enchant
 d = enchant.Dict("en_US")
 f_no = 1
 
-for filename in os.listdir("/Users/vijayvishwakarma/Desktop/Workspace/Test/"):
+for filename in os.listdir("/Users/vijayvishwakarma/Desktop/Workspace/Test/"):                                                      #Vj
     try:
         if filename.startswith("ContentServer"):
             print(filename)
@@ -31,7 +32,7 @@ for filename in os.listdir("/Users/vijayvishwakarma/Desktop/Workspace/Test/"):
             x.remove('')
 
             '''for i in range(0, len(x)):
-                if (x[i][-4:].isupper() and g == -1 and x[i+1][:4].isupper()):
+                if (x[i][-4:].isupper() and g == -1 and x[i+1][:4].isupper()):                      #Vj
                     g += i+1;'''
 
             if(g<0):
@@ -100,7 +101,7 @@ for filename in os.listdir("/Users/vijayvishwakarma/Desktop/Workspace/Test/"):
             w=x[i]
             w = list(w)
             for j in range(0,len(w)):
-                if(not(w[j].isalpha()) or (w[j]=="B" and w[j+1]=="y")):
+                if(not(w[j].isalpha()) or (w[j]=="B" and w[j+1]=="y")):                                                                         #Vj
                     break
                 z.append(w[j])
             z=''.join(z)
@@ -117,4 +118,4 @@ for filename in os.listdir("/Users/vijayvishwakarma/Desktop/Workspace/Test/"):
             os.rename(filename, title+".pdf")
 
     except IndexError:
-        continue
+        continue                                                                                                                                                                        #Vj
