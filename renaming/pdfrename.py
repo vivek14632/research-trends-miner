@@ -15,6 +15,7 @@ for filename in os.listdir("/Users/vijayvishwakarma/Desktop/Workspace/Test/"):
             page_content = page.extractText()
 
             x=page_content.split(" ")
+            print(x)
             title=[]
             z=[]
             a=[]
@@ -25,59 +26,70 @@ for filename in os.listdir("/Users/vijayvishwakarma/Desktop/Workspace/Test/"):
 
             for i in range(0,len(x)):
                 a = list(x[i])
+                a = [" " if not(m.isalpha()) else m for m in a ]
                 x[i] = ''.join(e for e in a if e.isalpha())
             x.remove('')
 
-            for i in range(0, len(x)):
+            '''for i in range(0, len(x)):
                 if (x[i][-4:].isupper() and g == -1 and x[i+1][:4].isupper()):
-                    g += i+1;
+                    g += i+1;'''
 
             if(g<0):
                 g=0
-            z=[]
+            '''z=[]
             z=list(x[g])
             y=""
             for i in range(0,len(z)):
                 if(''.join(z[i:]).isupper()):
                     y=''.join(z[i:])
-                    break
-            title.append(y)
+                    break'''
+            title.append(x[g])
 
 
             if(title[1].upper()=='METHODS'):
                 title.append("ARTICLE")
                 title.append(x[g+1][7:])
+                g+=1
             elif(title[1].upper()=='THEORY'):
                 title.append("AND")
                 title.append("ARTICLE")
                 title.append(x[g+2][7:])
+                g += 1
             elif(title[1].upper()=='ISSUES'):
                 title.append("AND")
                 title.append("OPINIONS")
                 title.append(x[g+2][8:])
+                g += 1
             elif (title[1].upper() == 'SPECIAL'):
                 title.append("ISSUE")
                 title.append(x[g+1][5:])
+                g += 1
             elif(title[1].upper()=='EDITORS'):
                 title.append("COMMENTS")
                 title.append(x[g+1][8:])
+                g += 1
             elif (title[1].upper() == 'ERRATA'):
                 title.append("NOTES")
                 title.append(x[g+1][5:])
+                g += 1
             elif (title[1].upper() == 'EDITORIAL'):
                 title.append("INTRODUCTION")
                 title.append(x[g+1][12:])
+                g += 1
             elif (title[1].upper() == 'RESEARCH'):
                 if(x[g+1][0].upper()=="A"):
                     title.append("ARTICLE")
                     title.append(x[g+1][7:])
+                    g += 1
                 if (x[g+1][0].upper() == "E"):
                     title.append("ESSAY")
                     title.append(x[g+1][5:])
+                    g += 1
                 if (x[g+1][0].upper()== "N"):
                     title.append("NOTE")
                     title.append(x[g+1][4:])
-            for i in range(len(title)+g,len(x)):
+                    g += 1
+            for i in range(len(title)+g-1,len(x)):
                 if(x[i]==''):
                     continue
                 if ("1" in x[i] and i>15 or "By" in x[i]):
