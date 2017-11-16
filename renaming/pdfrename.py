@@ -2,84 +2,107 @@ import os
 import PyPDF2
 import enchant
 d = enchant.Dict("en_US")
+f_no = 1
+
 for filename in os.listdir("/Users/vijayvishwakarma/Desktop/Workspace/Test/"):
-    if filename.startswith("ContentServer"):
-        print(filename)
-        pdf_file = open(filename, 'rb')
-        read_pdf = PyPDF2.PdfFileReader(pdf_file)
-        number_of_pages = read_pdf.getNumPages()
-        page = read_pdf.getPage(0)
-        page_content = page.extractText()
-        print(page_content)
-        x=page_content.split(" ")
-        #print(x)
-        #print(x[1][7:])
-        title=[]
-        z=[]
-        #print(x[1])
-        a=[]
-        #print(x)
-        for i in range(0,len(x)):
-            a = list(x[i])
-            a = ''.join(e for e in a if e.isalnum())
-            x[i] = ''.join(a)
-        #print(x)
-        '''for i in range(0,20):
-            a = list(x[i])
-            b = []
-            if(not(d.check(x[i]))):
-                print(x[i],not(d.check(x[i])))
-                for n in range(3,len(a)):
-                    b=a[n:]
+    try:
+        if filename.startswith("ContentServer"):
+            print(filename)
+            pdf_file = open(filename, 'rb')
+            read_pdf = PyPDF2.PdfFileReader(pdf_file)
+            number_of_pages = read_pdf.getNumPages()
+            page = read_pdf.getPage(0)
+            page_content = page.extractText()
 
-                    if (d.check(''.join(b))):
-                        x[i]=''.join(b)
-                        x.insert(i,''.join(a[:n]))
-                        print(''.join(b),''.join(a[n:]))'''
-        title.append(x[0])
-        if(x[0]=='METHODS'):
-            title.append("ARTICLE")
-            title.append(x[1][7:])
-        elif(x[0]=='THEORY'):
-            title.append(x[1])
-            title.append(x[2][:6])
-            title.append(x[2][6:])
-        elif(x[0]=='ISSUES'):
-            title.append(x[1])
-            title.append(x[2][:8])
-            title.append(x[2][9:])
-        elif (x[0] == 'SPECIAL'):
-            title.append(x[1][:7])
-            title.append(x[1][7:])
-        elif(x[0]=='EDITOR™S'):
-            title.append(x[1][:8])
-            title.append(x[1][8:])
-
-        name_length=10;
-
-        for i in range(len(title),name_length):
-            if(not(x[i].isalpha()) and x[i].isalnum()):
-                break
-            if(x[i]==''):
-                continue
-            title.append(x[i])
-
-        w=x[i]
-        w = list(w)
-        #print(w)
-        for j in range(0,len(w)):
-            if(not(w[j].isalpha())):
-                break
-            z.append(w[j])
-            #print(z)
-        z=''.join(z)
-        #print(z)
-        title.append(z)
-        #print(title)
-        #''.join(e for e in string if e.isalnum())
-        #title='_'.join(e for e in title if e.isalnum())
-        title='_'.join(f for f in title if f!='' and f.isupper())
-        print(title)
+            x=page_content.split(" ")
+            title=[]
+            z=[]
+            a=[]
+            title.append(str(f_no))
+            f_no += 1
+            g = -1
 
 
-        #os.rename(filename, title+".pdf")
+            for i in range(0,len(x)):
+                a = list(x[i])
+                x[i] = ''.join(e for e in a if e.isalpha())
+            x.remove('')
+
+            for i in range(0, len(x)):
+                if (x[i][-4:].isupper() and g == -1 and x[i+1][:4].isupper()):
+                    g += i+1;
+
+            if(g<0):
+                g=0
+            z=[]
+            z=list(x[g])
+            y=""
+            for i in range(0,len(z)):
+                if(''.join(z[i:]).isupper()):
+                    y=''.join(z[i:])
+                    break
+            title.append(y)
+
+
+            if(title[1].upper()=='METHODS'):
+                title.append("ARTICLE")
+                title.append(x[g+1][7:])
+            elif(title[1].upper()=='THEORY'):
+                title.append("AND")
+                title.append("ARTICLE")
+                title.append(x[g+2][7:])
+            elif(title[1].upper()=='ISSUES'):
+                title.append("AND")
+                title.append("OPINIONS")
+                title.append(x[g+2][8:])
+            elif (title[1].upper() == 'SPECIAL'):
+                title.append("ISSUE")
+                title.append(x[g+1][5:])
+            elif(title[1].upper()=='EDITORS'):
+                title.append("COMMENTS")
+                title.append(x[g+1][8:])
+            elif (title[1].upper() == 'ERRATA'):
+                title.append("NOTES")
+                title.append(x[g+1][5:])
+            elif (title[1].upper() == 'EDITORIAL'):
+                title.append("INTRODUCTION")
+                title.append(x[g+1][12:])
+            elif (title[1].upper() == 'RESEARCH'):
+                if(x[g+1][0].upper()=="A"):
+                    title.append("ARTICLE")
+                    title.append(x[g+1][7:])
+                if (x[g+1][0].upper() == "E"):
+                    title.append("ESSAY")
+                    title.append(x[g+1][5:])
+                if (x[g+1][0].upper()== "N"):
+                    title.append("NOTE")
+                    title.append(x[g+1][4:])
+            for i in range(len(title)+g,len(x)):
+                if(x[i]==''):
+                    continue
+                if ("1" in x[i] and i>15 or "By" in x[i]):
+                    break
+                title.append(x[i])
+
+            z=[]
+            w=x[i]
+            w = list(w)
+            for j in range(0,len(w)):
+                if(not(w[j].isalpha()) or (w[j]=="B" and w[j+1]=="y")):
+                    break
+                z.append(w[j])
+            z=''.join(z)
+            title.append(z)
+            if (title[0] == "ERRATA" or title[0] == "EDITORS"):
+                title = title[0:2]
+            if (len(title)>20):
+                title = title[0:20]
+            title='_'.join(f for f in title if f!='')
+            print(title)
+
+
+
+            os.rename(filename, title+".pdf")
+
+    except IndexError:
+        continue
