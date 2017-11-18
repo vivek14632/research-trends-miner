@@ -2,22 +2,13 @@
 # Purpose: write json to file
 
 import json
+from extractTitle import *
+from extractAuthors import *
+from extractYear import *
+from extractReferences import *
 
 # data is a dictionary which is like a json file
 data={}
-def extractTitle(paper=''):
-	return "This is dummy title"
-
-def extractAuthors(paper=''):
-	email='abc@gmail.com'
-	name='abc'
-	return [{'email':email,'name':name},{'email':email,'name':name}]
-
-def extractYear(paper=''):
-	return 2000
-
-def extractReferences(paper='')
-	return 'refernces list'
 
 # add title to data
 data.update({'title':extractTitle()})
