@@ -15,6 +15,10 @@ def extractAuthors(paper=''):
 
 def extractYear(paper=''):
 	return 2000
+
+def extractReferences(paper='')
+	return 'refernces list'
+
 # add title to data
 data.update({'title':extractTitle()})
 
